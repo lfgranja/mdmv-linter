@@ -1,0 +1,71 @@
+[package]
+name = "mdmv-linter"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.81"
+description = "Deterministic pre-code governance harness installer for Rust repositories"
+license = "MIT"
+repository = "https://github.com/lfgranja/mdmv-linter"
+
+[[bin]]
+name = "mdmv-linter"
+path = "src/main.rs"
+
+[lib]
+name = "mdmv_linter"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1"
+cargo_metadata = "0.18"
+clap = { version = "4", features = ["derive"] }
+fs4 = "0.8"
+include_dir = "0.7"
+rustix = { version = "0.38", features = ["fs"] }
+semver = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+tempfile = "3"
+thiserror = "1"
+toml = "0.8"
+toml_edit = "0.22"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+
+# NOTE: Cargo's `[lints] workspace = true` is all-or-nothing (it cannot be
+# combined with per-member overrides). The common baseline in the root
+# `[workspace.lints]` is therefore materialized here together with the
+# app-tier rules, which is the same union the installer writes into generated
+# member manifests.
+[lints.rust]
+# mdmv-rust-thin: no unsafe code in production.
+unsafe_code = "forbid"
+
+[lints.clippy]
+# Common baseline (root [workspace.lints], contracts/cli-and-ci.md §1).
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+# Dogfooded app-tier rules + mdmv-rust-thin's stricter pedantic=deny.
+pedantic = "deny"
+panic_in_result_fn = "deny"
+unimplemented = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+await_holding_lock = "deny"
+exit = "deny"
+# App-tier pedantic relaxations (contracts/cli-and-ci.md §1).
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+doc_markdown = "allow"
+must_use_candidate = "allow"
+module_name_repetitions = "allow"
+similar_names = "allow"
+too_many_lines = "allow"
