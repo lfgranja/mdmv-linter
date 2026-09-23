@@ -60,45 +60,45 @@ exist and be valid before `init` (US1) can apply anything.
 
 ### Core infrastructure
 
-- [ ] T011 Implement typed domain errors and deterministic exit-code mapping (0/1/2/3) per `contracts/cli-and-ci.md` §1 in `crates/mdmv-linter/src/error.rs`
-- [ ] T012 Implement the clap-derive CLI skeleton with `init/check/doctor/metrics/upgrade/uninstall` subcommands and the `--tier <crate>=<tier>` custom value parser in `crates/mdmv-linter/src/cli/mod.rs`
-- [ ] T013 Wire `main.rs` to parse args, dispatch to command handlers, and translate `error.rs` errors into process exit codes in `crates/mdmv-linter/src/main.rs`
-- [ ] T014 [P] Implement atomic writes (tempfile persist + `File::sync_all` + `rustix` directory fsync) in `crates/mdmv-linter/src/infra/atomic_fs.rs`
-- [ ] T015 [P] Implement the advisory lock (`.mdmv/lock` via `fs4`, bounded 10 s wait, exit `2` with locked-state message) in `crates/mdmv-linter/src/infra/lock.rs`
-- [ ] T016 [P] Implement the commit manifest `.mdmv/state.toml` (version, artifact list, sha2 digests, gate/tier/policy version; written last) in `crates/mdmv-linter/src/infra/manifest.rs`
-- [ ] T017 [P] Implement cargo introspection (workspace members, targets, MSRV, edition, `[workspace.lints]`) via `cargo_metadata` in `crates/mdmv-linter/src/infra/cargo_meta.rs`
-- [ ] T018 [P] Implement the canonical scan (`cargo clippy --all-targets --message-format=json`, count per `code.code`, include rustc build warnings) in `crates/mdmv-linter/src/infra/scan.rs`
-- [ ] T019 [P] Implement asset embedding over `assets/` with `include_dir!` in `crates/mdmv-linter/src/infra/assets.rs`
-- [ ] T020 [P] Implement the `HookManager` trait plus the `lefthook` adapter (no binary dependency in the target repo; `husky-rs` adapter deferred) in `crates/mdmv-linter/src/infra/hook_manager.rs`
-- [ ] T021 [P] Implement the `CiPlatform` trait plus github/gitlab/forgejo adapters in `crates/mdmv-linter/src/infra/ci_platform.rs`
-- [ ] T022 [P] Implement format-preserving config merge (`toml_edit`) for existing manifests in `crates/mdmv-linter/src/infra/merge.rs`
+- [X] T011 Implement typed domain errors and deterministic exit-code mapping (0/1/2/3) per `contracts/cli-and-ci.md` §1 in `crates/mdmv-linter/src/error.rs`
+- [X] T012 Implement the clap-derive CLI skeleton with `init/check/doctor/metrics/upgrade/uninstall` subcommands and the `--tier <crate>=<tier>` custom value parser in `crates/mdmv-linter/src/cli/mod.rs`
+- [X] T013 Wire `main.rs` to parse args, dispatch to command handlers, and translate `error.rs` errors into process exit codes in `crates/mdmv-linter/src/main.rs`
+- [X] T014 [P] Implement atomic writes (tempfile persist + `File::sync_all` + `rustix` directory fsync) in `crates/mdmv-linter/src/infra/atomic_fs.rs`
+- [X] T015 [P] Implement the advisory lock (`.mdmv/lock` via `fs4`, bounded 10 s wait, exit `2` with locked-state message) in `crates/mdmv-linter/src/infra/lock.rs`
+- [X] T016 [P] Implement the commit manifest `.mdmv/state.toml` (version, artifact list, sha2 digests, gate/tier/policy version; written last) in `crates/mdmv-linter/src/infra/manifest.rs`
+- [X] T017 [P] Implement cargo introspection (workspace members, targets, MSRV, edition, `[workspace.lints]`) via `cargo_metadata` in `crates/mdmv-linter/src/infra/cargo_meta.rs`
+- [X] T018 [P] Implement the canonical scan (`cargo clippy --all-targets --message-format=json`, count per `code.code`, include rustc build warnings) in `crates/mdmv-linter/src/infra/scan.rs`
+- [X] T019 [P] Implement asset embedding over `assets/` with `include_dir!` in `crates/mdmv-linter/src/infra/assets.rs`
+- [X] T020 [P] Implement the `HookManager` trait plus the `lefthook` adapter (no binary dependency in the target repo; `husky-rs` adapter deferred) in `crates/mdmv-linter/src/infra/hook_manager.rs`
+- [X] T021 [P] Implement the `CiPlatform` trait plus github/gitlab/forgejo adapters in `crates/mdmv-linter/src/infra/ci_platform.rs`
+- [X] T022 [P] Implement format-preserving config merge (`toml_edit`) for existing manifests in `crates/mdmv-linter/src/infra/merge.rs`
 
 ### Domain entities (data-model.md)
 
-- [ ] T023 [P] Implement `PolicyVersion` (SemVer seal, parse/compare, minimum-version gate) in `crates/mdmv-linter/src/domain/policy_version.rs`
-- [ ] T024 [P] Implement `Tier` (lib|app|embedded, deprecated `minimal/standard/maximum` warn-and-map aliases, ≥1 active rule) in `crates/mdmv-linter/src/domain/tier.rs`
-- [ ] T025 [P] Implement per-crate tier resolution (lib→biblioteca, `[[bin]]`→app, embedded explicit, `--tier` override, unresolved = error) in `crates/mdmv-linter/src/domain/tier.rs`
-- [ ] T026 [P] Implement `RuleSet` (levels deny|warn|allow, active flag, exception `condition`+`reason`, unknown key = hard error) in `crates/mdmv-linter/src/domain/rule_set.rs`
-- [ ] T027 [P] Implement `Baseline` (`.mdmv/baseline.toml`: total + per-lint + tier + policy_version; `total == sum(per_lint)`; mode-aware absence) in `crates/mdmv-linter/src/domain/baseline.rs`
-- [ ] T028 [P] Implement the `Fixture` entity (full violation records `lint_group`+`severity`+`line_ref`+`expected_text`) in `crates/mdmv-linter/src/domain/fixture.rs`
-- [ ] T029 [P] Implement `RepoGovernance` (fields, snapshot path, state transitions) in `crates/mdmv-linter/src/domain/governance.rs`
+- [X] T023 [P] Implement `PolicyVersion` (SemVer seal, parse/compare, minimum-version gate) in `crates/mdmv-linter/src/domain/policy_version.rs`
+- [X] T024 [P] Implement `Tier` (lib|app|embedded, deprecated `minimal/standard/maximum` warn-and-map aliases, ≥1 active rule) in `crates/mdmv-linter/src/domain/tier.rs`
+- [X] T025 [P] Implement per-crate tier resolution (lib→biblioteca, `[[bin]]`→app, embedded explicit, `--tier` override, unresolved = error) in `crates/mdmv-linter/src/domain/tier.rs`
+- [X] T026 [P] Implement `RuleSet` (levels deny|warn|allow, active flag, exception `condition`+`reason`, unknown key = hard error) in `crates/mdmv-linter/src/domain/rule_set.rs`
+- [X] T027 [P] Implement `Baseline` (`.mdmv/baseline.toml`: total + per-lint + tier + policy_version; `total == sum(per_lint)`; mode-aware absence) in `crates/mdmv-linter/src/domain/baseline.rs`
+- [X] T028 [P] Implement the `Fixture` entity (full violation records `lint_group`+`severity`+`line_ref`+`expected_text`) in `crates/mdmv-linter/src/domain/fixture.rs`
+- [X] T029 [P] Implement `RepoGovernance` (fields, snapshot path, state transitions) in `crates/mdmv-linter/src/domain/governance.rs`
 
 ### Deterministic artifact (`assets/`, ROADMAP F1)
 
-- [ ] T030 Author tier presets `assets/presets/Cargo-lints-lib.toml`, `assets/presets/Cargo-lints-app.toml`, `assets/presets/Cargo-lints-embedded.toml` conforming to the normative per-tier table in `contracts/cli-and-ci.md` §1 (retire legacy `minimal/standard/maximum.toml`; no physical copies) in `assets/presets/`
-- [ ] T031 [P] Author `assets/clippy.toml` (global thresholds 15/200/100, `allow-*-in-tests` limited to the panic-safety set, `allowed-duplicate-crates`, `doc-valid-idents`) in `assets/clippy.toml`
-- [ ] T032 [P] Author the toolchain template (pin + clippy/rustfmt components) in `assets/rust-toolchain.toml`
-- [ ] T033 [P] Author `assets/cargo-config.toml` (`[build] warnings = "warn"`) in `assets/cargo-config.toml`
-- [ ] T034 [P] Author `assets/deny.toml` (advisories, licenses, bans, sources) in `assets/deny.toml`
-- [ ] T035 [P] Author the canonical `assets/verify.sh` (order: `cargo fmt --check` → `cargo clippy --all-targets -- -D warnings` → `cargo test`; fixture runs as a separate pinned step, not here) in `assets/verify.sh`
-- [ ] T036 [P] Author `assets/casv.toml` (opt-in partner-engine integration template) in `assets/casv.toml`
-- [ ] T037 [P] Author `assets/CONSTITUTION.md` (1:1 rule→lint mapping, `#[expect(reason = "...")]`) in `assets/CONSTITUTION.md`
-- [ ] T038 Author the canary fixture crate (clean code that compiles + one planted violation per **deny/forbid leaf** rule with full records — groups covered by their leaves, `allow`/default cells excluded + a `tests/` case that must still fail + fixture `clippy.toml`) in `assets/fixture/`
-- [ ] T039 [P] Author the GitHub workflow template (jobs `gate-lints`, `msrv-compat`, `tests` + aggregator `harness-verify` with `if: always()` and `needs`) in `assets/workflows/github/harness-verify.yml`
-- [ ] T040 [P] Author the GitLab CI template (same 3 jobs + aggregator) in `assets/workflows/gitlab/.gitlab-ci.yml`
-- [ ] T041 [P] Author the Forgejo workflow template (same 3 jobs + aggregator) in `assets/workflows/forgejo/harness-verify.yml`
-- [ ] T042 Author the hook template running `.mdmv/verify.sh` at pre-commit (lefthook) in `assets/lefthook.yml`
-- [ ] T043 Apply the dogfood artifacts to this repo (`.mdmv/verify.sh`, `.github/workflows/harness-verify.yml`, root `CONSTITUTION.md`) from the assets in `assets/` (FR-016)
+- [X] T030 Author tier presets `assets/presets/Cargo-lints-lib.toml`, `assets/presets/Cargo-lints-app.toml`, `assets/presets/Cargo-lints-embedded.toml` conforming to the normative per-tier table in `contracts/cli-and-ci.md` §1 (retire legacy `minimal/standard/maximum.toml`; no physical copies) in `assets/presets/`
+- [X] T031 [P] Author `assets/clippy.toml` (global thresholds 15/200/100, `allow-*-in-tests` limited to the panic-safety set, `allowed-duplicate-crates`, `doc-valid-idents`) in `assets/clippy.toml`
+- [X] T032 [P] Author the toolchain template (pin + clippy/rustfmt components) in `assets/rust-toolchain.toml`
+- [X] T033 [P] Author `assets/cargo-config.toml` (`[build] warnings = "warn"`) in `assets/cargo-config.toml`
+- [X] T034 [P] Author `assets/deny.toml` (advisories, licenses, bans, sources) in `assets/deny.toml`
+- [X] T035 [P] Author the canonical `assets/verify.sh` (order: `cargo fmt --check` → `cargo clippy --all-targets -- -D warnings` → `cargo test`; fixture runs as a separate pinned step, not here) in `assets/verify.sh`
+- [X] T036 [P] Author `assets/casv.toml` (opt-in partner-engine integration template) in `assets/casv.toml`
+- [X] T037 [P] Author `assets/CONSTITUTION.md` (1:1 rule→lint mapping, `#[expect(reason = "...")]`) in `assets/CONSTITUTION.md`
+- [X] T038 Author the canary fixture crate (clean code that compiles + one planted violation per **deny/forbid leaf** rule with full records — groups covered by their leaves, `allow`/default cells excluded + a `tests/` case that must still fail + fixture `clippy.toml`) in `assets/fixture/`
+- [X] T039 [P] Author the GitHub workflow template (jobs `gate-lints`, `msrv-compat`, `tests` + aggregator `harness-verify` with `if: always()` and `needs`) in `assets/workflows/github/harness-verify.yml`
+- [X] T040 [P] Author the GitLab CI template (same 3 jobs + aggregator) in `assets/workflows/gitlab/.gitlab-ci.yml`
+- [X] T041 [P] Author the Forgejo workflow template (same 3 jobs + aggregator) in `assets/workflows/forgejo/harness-verify.yml`
+- [X] T042 Author the hook template running `.mdmv/verify.sh` at pre-commit (lefthook) in `assets/lefthook.yml`
+- [X] T043 Apply the dogfood artifacts to this repo (`.mdmv/verify.sh`, `.github/workflows/harness-verify.yml`, root `CONSTITUTION.md`) from the assets in `assets/` (FR-016)
 
 **Checkpoint**: Infrastructure and the deterministic artifact are ready — user story phases can begin.
 
