@@ -61,7 +61,10 @@ pub struct WorkspaceInfo {
 /// ```
 #[must_use]
 pub fn classify_target(kind: &[&str], crate_types: &[&str]) -> Option<TargetKind> {
-    if kind.contains(&"bin") || crate_types.contains(&"bin") {
+    // `[[bin]]` → kind `["bin"]`. Examples/tests also carry
+    // `crate_types = ["bin"]`, so only `kind` identifies a real binary target;
+    // using `crate_types` here would misclassify examples as app tier.
+    if kind.contains(&"bin") {
         Some(TargetKind::Bin)
     } else if is_library_marker(kind) || is_library_marker(crate_types) {
         Some(TargetKind::Lib)
@@ -165,8 +168,10 @@ mod tests {
 
     #[test]
     fn bin_maps_to_bin() {
+        assert_eq!(classify_target(&["bin"], &["bin"]), Some(TargetKind::Bin));
         assert_eq!(classify_target(&["bin"], &[]), Some(TargetKind::Bin));
-        assert_eq!(classify_target(&["lib"], &["bin"]), Some(TargetKind::Bin));
+        // Examples/tests carry crate_types = ["bin"] but must NOT be app-tier.
+        assert_eq!(classify_target(&["example"], &["bin"]), None);
     }
 
     #[test]
