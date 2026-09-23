@@ -1,0 +1,41 @@
+# mdmv-linter harness gate — GitLab CI template.
+# Aggregator job name is `harness-verify` (required status check).
+
+stages:
+  - gate
+  - aggregate
+
+gate-lints:
+  stage: gate
+  variables:
+    CARGO_BUILD_WARNINGS: "deny"
+  script:
+    - rustup toolchain install 1.98.0 --component clippy --component rustfmt
+    - rustup default 1.98.0
+    - .mdmv/verify.sh
+    - mdmv-linter check --fixture
+    - mdmv-linter check --policy
+
+msrv-compat:
+  stage: gate
+  variables:
+    # Orthogonal language-compat guarantee: warnings are NOT rejected here.
+    CARGO_BUILD_WARNINGS: "warn"
+  script:
+    - rustup toolchain install 1.81 --profile minimal
+    - rustup default 1.81
+    - cargo build --all-targets
+    - cargo test
+
+tests:
+  stage: gate
+  script:
+    - cargo install cargo-deny --locked || true
+    - cargo test
+    - cargo deny check --config-path .cargo/deny.toml
+
+harness-verify:
+  stage: aggregate
+  needs: [gate-lints, msrv-compat, tests]
+  script:
+    - echo "All gate jobs succeeded."
