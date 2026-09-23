@@ -1,0 +1,75 @@
+# mdmv-linter harness gate — GitHub Actions template.
+# Required status check: the aggregator job `harness-verify`.
+# Contract: contracts/cli-and-ci.md §2.
+name: harness-verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gate-lints:
+    runs-on: ubuntu-latest
+    env:
+      # Warn at source, deny in the gate (Cargo >= 1.97, no cache invalidation).
+      CARGO_BUILD_WARNINGS: deny
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned gate toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.0"
+          components: clippy, rustfmt
+      - name: Canonical gate (fmt -> clippy -> test)
+        run: .mdmv/verify.sh
+      - name: Fixture conformance
+        run: mdmv-linter check --fixture
+      - name: Minimum policy version gate
+        run: mdmv-linter check --policy
+
+  msrv-compat:
+    runs-on: ubuntu-latest
+    env:
+      # Orthogonal language-compat guarantee: warnings are NOT rejected here.
+      CARGO_BUILD_WARNINGS: warn
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install declared MSRV toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.81"
+      - name: Build with declared MSRV
+        run: cargo build --all-targets
+      - name: Test with declared MSRV
+        run: cargo test
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned gate toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.0"
+      - name: Unit and integration tests
+        run: cargo test
+      - name: "Supply-chain gate (cargo-deny: advisories, licenses, bans, sources)"
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          manifest-path: Cargo.toml
+          command: check
+
+  harness-verify:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [gate-lints, msrv-compat, tests]
+    steps:
+      - name: Aggregate gate results
+        run: |
+          echo '${{ toJSON(needs) }}'
+          if echo '${{ toJSON(needs) }}' | grep -Eq '"(failure|cancelled)"'; then
+            echo "harness-verify: at least one gate job did not succeed"
+            exit 1
+          fi
+          echo "harness-verify: all gate jobs succeeded"
