@@ -144,7 +144,7 @@ fn tier_value_parser(raw: &str) -> std::result::Result<String, String> {
 /// Dispatch a parsed CLI to its handler.
 pub fn run(cli: Cli) -> Result<ExitStatus> {
     match cli.command {
-        Command::Init(args) => init::run(args),
+        Command::Init(args) => init::run(&args),
         Command::Check(args) => check::run(args),
         Command::Doctor => doctor::run(),
         Command::Metrics(args) => metrics::run(args),
