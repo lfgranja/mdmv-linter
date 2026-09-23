@@ -1,0 +1,16 @@
+# mdmv-linter lib preset — PolicyVersion 0.1.0
+# Generated from contracts/cli-and-ci.md §1. Complete for tier: lib.
+
+[lints.rust]
+missing_docs = "deny"
+# rustc lint (was misclassified as clippy in the first pass).
+unreachable_pub = "deny"
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+pedantic = { level = "warn", priority = -1 }
