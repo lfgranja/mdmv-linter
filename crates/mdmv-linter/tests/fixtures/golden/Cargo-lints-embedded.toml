@@ -1,0 +1,49 @@
+# mdmv-linter embedded preset — PolicyVersion 0.1.0
+# Generated from contracts/cli-and-ci.md §1. Complete for tier: embedded.
+
+[lints.rust]
+unsafe_code = "forbid"
+non_ascii_idents = "forbid"
+rust_2018_idioms = { level = "deny", priority = -1 }
+future_incompatible = { level = "deny", priority = -1 }
+nonstandard_style = { level = "deny", priority = -1 }
+missing_debug_implementations = "deny"
+missing_copy_implementations = "deny"
+unfulfilled_lint_expectations = "deny"
+
+[lints.rustdoc]
+all = { level = "deny", priority = -1 }
+
+[lints.clippy]
+# Common baseline (all tiers).
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+# App/embedded-only rules.
+panic_in_result_fn = "deny"
+unimplemented = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+await_holding_lock = "deny"
+exit = "deny"
+pedantic = { level = "deny", priority = -1 }
+all = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
+allow_attributes_without_reason = "deny"
+large_futures = "deny"
+mem_forget = "deny"
+large_stack_arrays = "deny"
+large_types_passed_by_value = "deny"
+unreachable = "deny"
+indexing_slicing = "deny"
+# Embedded allow relaxations (later-wins over the groups).
+multiple_crate_versions = "allow"
+cast_possible_truncation = "allow"
+cast_sign_loss = "allow"
+cast_precision_loss = "allow"
+cast_possible_wrap = "allow"
+cognitive_complexity = "allow"
