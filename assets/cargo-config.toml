@@ -1,0 +1,5 @@
+# Merged by Cargo into .cargo/config.toml during install.
+# CI overrides with CARGO_BUILD_WARNINGS=deny.
+
+[build]
+warnings = "warn"
