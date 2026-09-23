@@ -25,7 +25,19 @@ pub fn read_to_string(path: &str) -> Option<String> {
 
 /// Iterate every embedded asset file, recursively.
 pub fn iter_files() -> impl Iterator<Item = &'static include_dir::File<'static>> {
-    ASSETS.files()
+    fn walk(dir: &'static Dir<'static>, out: &mut Vec<&'static include_dir::File<'static>>) {
+        for entry in dir.entries() {
+            if let Some(file) = entry.as_file() {
+                out.push(file);
+            } else if let Some(child) = entry.as_dir() {
+                walk(child, out);
+            }
+        }
+    }
+
+    let mut out = Vec::new();
+    walk(&ASSETS, &mut out);
+    out.into_iter()
 }
 
 #[cfg(test)]
