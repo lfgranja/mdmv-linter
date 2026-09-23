@@ -1,0 +1,5 @@
+# mdmv-linter pre-commit hook — canonical gate.
+pre-commit:
+  commands:
+    mdmv-verify:
+      run: .mdmv/verify.sh
