@@ -1,8 +1,10 @@
 # Repomix XML packs
 *.xml
 
-# Rust build artifacts
+# Rust build artifacts (root workspace + the non-member canary fixture)
 /target/
+assets/fixture/target/
+assets/fixture/Cargo.lock
 
 # Harness session state
 .omo/
