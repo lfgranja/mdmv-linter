@@ -2,7 +2,13 @@
 *.xml
 
 # Rust build artifacts
-target/
+/target/
+
+# Harness session state
+.omo/
+
+# graphify (generated knowledge graph, local/regenerable)
+graphify-out/
 
 # macOS
 .DS_Store
