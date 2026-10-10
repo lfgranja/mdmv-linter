@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = ["crates/mdmv-linter"]
+# The canary fixture is deliberately NOT a workspace member so that
+# `cargo clippy --all-targets` never counts its planted violations.
+exclude = ["assets/fixture"]
+
+# Common baseline shared by every tier (contracts/cli-and-ci.md §1).
+# Per-tier rules live in each member's own [lints] table.
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"

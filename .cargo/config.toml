@@ -1,0 +1,4 @@
+# Warn at source; the CI gate job overrides with CARGO_BUILD_WARNINGS=deny.
+# Requires Cargo >= 1.97 (no cache invalidation).
+[build]
+warnings = "warn"
