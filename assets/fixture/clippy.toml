@@ -1,0 +1,37 @@
+# Global Clippy thresholds shared by all tiers (contracts/cli-and-ci.md §1).
+# Same values as the harness's generated `clippy.toml`: the fixture asserts
+# the delivered artifact stays in conformance with these thresholds.
+cognitive-complexity-threshold = 15
+type-complexity-threshold = 200
+too-many-lines-threshold = 100
+
+# Domain terms that should not trigger spelling warnings in docs.
+doc-valid-idents = [
+    "LLM",
+    "AI",
+    "API",
+    "CLI",
+    "TUI",
+    "AST",
+    "MCP",
+    "DSPy",
+    "PTY",
+    "JIT",
+    "FFI",
+    "JSON",
+    "TOML",
+    "UUID",
+    "URL",
+    "HTTP",
+    "HTTPS",
+    "TCP",
+    "UDP",
+    "WebSocket",
+    "OAuth",
+    "JWT",
+    "SemVer",
+    "MSRV",
+    "CI",
+    "FR",
+    "NN",
+]

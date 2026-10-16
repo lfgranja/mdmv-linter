@@ -54,7 +54,8 @@ allow_attributes = "deny"
 dbg_macro = "deny"
 todo = "deny"
 # Dogfooded app-tier rules + mdmv-rust-thin's stricter pedantic=deny.
-pedantic = "deny"
+# priority -1 so the explicit relaxations below (priority 0) win.
+pedantic = { level = "deny", priority = -1 }
 panic_in_result_fn = "deny"
 unimplemented = "deny"
 print_stdout = "deny"

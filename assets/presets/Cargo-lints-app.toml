@@ -1,0 +1,27 @@
+# mdmv-linter app preset — PolicyVersion 0.1.0
+# Generated from contracts/cli-and-ci.md §1. Complete for tier: app.
+
+[lints.clippy]
+# Common baseline (all tiers).
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+pedantic = { level = "warn", priority = -1 }
+# App/embedded-only rules.
+panic_in_result_fn = "deny"
+unimplemented = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+await_holding_lock = "deny"
+exit = "deny"
+# App allow relaxations (later-wins over the pedantic group).
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+doc_markdown = "allow"
+must_use_candidate = "allow"
+module_name_repetitions = "allow"
+similar_names = "allow"
+too_many_lines = "allow"

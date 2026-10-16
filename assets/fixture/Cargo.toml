@@ -1,0 +1,69 @@
+# Canary fixture for the mdmv-linter harness (T038).
+#
+# This crate is NOT a workspace member: the root `Cargo.toml` carries
+# `exclude = ["assets/fixture"]`, and the empty `[workspace]` table below
+# makes this package its own workspace root so it can never be pulled into
+# the parent workspace. The fixture is EXPECTED to fail the gate (US3 runner
+# asserts every planted violation); its own `[lints]` mirror the union of the
+# embedded / app / lib tiers' explicitly-named deny/forbid leaves.
+#
+# Each deny/forbid leaf that must be canaried is enabled here — see README.md.
+[package]
+name = "mdmv-fixture"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Standalone crate: empty workspace table.
+[workspace]
+
+# No dependencies: everything stays on std.
+
+# rustc leaves (contracts/cli-and-ci.md §1, lib/app/embedded union).
+[lints.rust]
+# Embedded tier, forbid → hard compile error (canary asserts build failure).
+unsafe_code = "forbid"
+non_ascii_idents = "forbid"
+# lib tier leaf.
+missing_docs = "deny"
+# Embedded tier leaves.
+missing_debug_implementations = "deny"
+missing_copy_implementations = "deny"
+unfulfilled_lint_expectations = "deny"
+unreachable_pub = "deny"
+
+# clippy leaves — the union of explicitly-named deny cells across the tiers.
+# Groups (`all`, `nursery`, `cargo`, `pedantic`, `rustdoc::all`,
+# `rust_2018_idioms`, `future_incompatible`, `nonstandard_style`) are
+# deliberately not listed: they are covered by their canaried leaves.
+[lints.clippy]
+# Common baseline (all tiers).
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+# app + embedded tier leaves.
+panic_in_result_fn = "deny"
+unimplemented = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+await_holding_lock = "deny"
+exit = "deny"
+# embedded tier leaves.
+allow_attributes_without_reason = "deny"
+large_futures = "deny"
+mem_forget = "deny"
+large_stack_arrays = "deny"
+large_types_passed_by_value = "deny"
+unreachable = "deny"
+indexing_slicing = "deny"
+
+# Compile-fail canaries each live behind their own feature: their lint fires at
+# parse/expansion stage and aborts the whole crate compilation, so each must be
+# isolated in its own build pass (see README.md).
+[features]
+default = []
+canary_compile_fail_unsafe = []
+canary_compile_fail_non_ascii = []

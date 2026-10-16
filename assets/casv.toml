@@ -1,0 +1,7 @@
+# casv.toml — opt-in partner-engine integration (mdmv-linter).
+# Emitted only by `mdmv-linter init --casv`; off by default.
+
+[casv]
+enabled = false
+engine = "casv-rust"
+policy_version = "0.1.0"
