@@ -3,6 +3,8 @@
 
 [lints.rust]
 missing_docs = "deny"
+# rustc lint (was misclassified as clippy in the first pass).
+unreachable_pub = "deny"
 
 [lints.clippy]
 unwrap_used = "deny"
@@ -12,4 +14,3 @@ allow_attributes = "deny"
 dbg_macro = "deny"
 todo = "deny"
 pedantic = { level = "warn", priority = -1 }
-unreachable_pub = "deny"

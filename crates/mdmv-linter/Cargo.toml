@@ -15,6 +15,32 @@ path = "src/main.rs"
 name = "mdmv_linter"
 path = "src/lib.rs"
 
+# Integration/contract tests live in subdirectories (spec-mandated layout), so
+# they are registered explicitly rather than auto-discovered.
+[[test]]
+name = "init_cli"
+path = "tests/contract/init_cli.rs"
+
+[[test]]
+name = "init_clean"
+path = "tests/integration/init_clean.rs"
+
+[[test]]
+name = "init_idempotent"
+path = "tests/integration/init_idempotent.rs"
+
+[[test]]
+name = "init_ratchet"
+path = "tests/integration/init_ratchet.rs"
+
+[[test]]
+name = "init_nonclobber"
+path = "tests/integration/init_nonclobber.rs"
+
+[[test]]
+name = "init_workspace"
+path = "tests/integration/init_workspace.rs"
+
 [dependencies]
 anyhow = "1"
 cargo_metadata = "0.18"

@@ -83,16 +83,22 @@ fn diagnostic_code(value: &Value) -> Option<String> {
         .and_then(|code| code.get("code"))
         .and_then(Value::as_str);
 
-    match code {
-        Some(code) => {
-            let code = code.trim();
-            if code.is_empty() {
-                None
-            } else {
-                Some(code.to_owned())
-            }
-        }
-        None => Some(message.get("level").and_then(Value::as_str)?.to_owned()),
+    let Some(code) = code else {
+        // Only actionable diagnostics count as violations; rustc also emits
+        // `note`/`help`/`failure-note` records without a code.
+        let level = message.get("level").and_then(Value::as_str)?;
+        return matches!(
+            level,
+            "warning" | "error" | "error: internal compiler error"
+        )
+        .then(|| level.to_owned());
+    };
+
+    let code = code.trim();
+    if code.is_empty() {
+        None
+    } else {
+        Some(code.to_owned())
     }
 }
 

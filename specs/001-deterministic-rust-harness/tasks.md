@@ -116,24 +116,24 @@ second identical run produces `git diff --stat` empty (quickstart B).
 
 ### Tests for User Story 1 (TDD — write first, must fail)
 
-- [ ] T044 [P] [US1] Contract test for `init` help, `--tier` grammar, and exit codes in `crates/mdmv-linter/tests/contract/init_cli.rs`
-- [ ] T045 [P] [US1] Integration test quickstart A (clean repo → strict, all artifacts present, exit 0) in `crates/mdmv-linter/tests/integration/init_clean.rs` (assert `.casv.toml` is absent without `--casv`, FR-005)
-- [ ] T046 [P] [US1] Integration test quickstart B (idempotency: second identical `init` = zero file changes; includes a `--gate-mode --gate-mode-reason` run asserting `.mdmv/gate-override.log` is not appended on re-run) in `crates/mdmv-linter/tests/integration/init_idempotent.rs` (assert `.casv.toml` stays absent across both runs)
-- [ ] T047 [P] [US1] Integration test quickstart C (legacy repo → derived ratchet + `.mdmv/baseline.toml` written) in `crates/mdmv-linter/tests/integration/init_ratchet.rs`
-- [ ] T048 [P] [US1] Integration test non-destructive merge/abort on pre-existing config (FR-003) in `crates/mdmv-linter/tests/integration/init_nonclobber.rs`
-- [ ] T049 [P] [US1] Integration test workspace per-crate tier resolution and root baseline (FR-004) in `crates/mdmv-linter/tests/integration/init_workspace.rs` (assert `embedded` requires explicit declaration and an unresolved crate is an error, FR-004)
-- [ ] T050 [P] [US1] Golden-file tests of generated artifacts against `contracts/cli-and-ci.md` §1 in `crates/mdmv-linter/tests/fixtures/golden/`
+- [X] T044 [P] [US1] Contract test for `init` help, `--tier` grammar, and exit codes in `crates/mdmv-linter/tests/contract/init_cli.rs`
+- [X] T045 [P] [US1] Integration test quickstart A (clean repo → strict, all artifacts present, exit 0) in `crates/mdmv-linter/tests/integration/init_clean.rs` (assert `.casv.toml` is absent without `--casv`, FR-005)
+- [X] T046 [P] [US1] Integration test quickstart B (idempotency: second identical `init` = zero file changes; includes a `--gate-mode --gate-mode-reason` run asserting `.mdmv/gate-override.log` is not appended on re-run) in `crates/mdmv-linter/tests/integration/init_idempotent.rs` (assert `.casv.toml` stays absent across both runs)
+- [X] T047 [P] [US1] Integration test quickstart C (legacy repo → derived ratchet + `.mdmv/baseline.toml` written) in `crates/mdmv-linter/tests/integration/init_ratchet.rs`
+- [X] T048 [P] [US1] Integration test non-destructive merge/abort on pre-existing config (FR-003) in `crates/mdmv-linter/tests/integration/init_nonclobber.rs`
+- [X] T049 [P] [US1] Integration test workspace per-crate tier resolution and root baseline (FR-004) in `crates/mdmv-linter/tests/integration/init_workspace.rs` (assert `embedded` requires explicit declaration and an unresolved crate is an error, FR-004)
+- [X] T050 [P] [US1] Golden-file tests of generated artifacts against `contracts/cli-and-ci.md` §1 in `crates/mdmv-linter/tests/fixtures/golden/`
 
 ### Implementation for User Story 1
 
-- [ ] T051 [US1] Implement `init` orchestration (anchor cwd, acquire lock, capture rollback snapshot before mutation, pre-count scan, derive gate mode, apply assets, write manifest last, report count) in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T052 [US1] Implement non-destructive merge + TTY prompt + `--yes` + abort exit `1` for existing configs in `crates/mdmv-linter/src/cli/init.rs` (uses `src/infra/merge.rs`)
-- [ ] T053 [US1] Implement per-crate tier application (member preset into each manifest, common root baseline) in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T054 [US1] Implement gate-mode derivation, `--gate-mode` override, and initial baseline write on ratchet in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T054a [US1] Implement the gate-mode override audit trail (require `--gate-mode-reason`; reject `--gate-mode` without it with exit `2` and no mutation; append `.mdmv/gate-override.log` with timestamp + reason + SHA **only when the decision differs from the last recorded entry — an identical re-run appends nothing, preserving FR-002**; echo to stdout) in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T055 [US1] Implement hook installation via `HookManager` in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T056 [US1] Implement `--casv` opt-in emission of `.casv.toml` (off by default, no auto-detection) in `crates/mdmv-linter/src/cli/init.rs`
-- [ ] T057 [US1] Implement the `< 30 s` path and the final pre-existing-violation report in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T051 [US1] Implement `init` orchestration (anchor cwd, acquire lock, capture rollback snapshot before mutation, pre-count scan, derive gate mode, apply assets, write manifest last, report count) in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T052 [US1] Implement non-destructive merge + TTY prompt + `--yes` + abort exit `1` for existing configs in `crates/mdmv-linter/src/cli/init.rs` (uses `src/infra/merge.rs`)
+- [X] T053 [US1] Implement per-crate tier application (member preset into each manifest, common root baseline) in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T054 [US1] Implement gate-mode derivation, `--gate-mode` override, and initial baseline write on ratchet in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T054a [US1] Implement the gate-mode override audit trail (require `--gate-mode-reason`; reject `--gate-mode` without it with exit `2` and no mutation; append `.mdmv/gate-override.log` with timestamp + reason + SHA **only when the decision differs from the last recorded entry — an identical re-run appends nothing, preserving FR-002**; echo to stdout) in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T055 [US1] Implement hook installation via `HookManager` in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T056 [US1] Implement `--casv` opt-in emission of `.casv.toml` (off by default, no auto-detection) in `crates/mdmv-linter/src/cli/init.rs`
+- [X] T057 [US1] Implement the `< 30 s` path and the final pre-existing-violation report in `crates/mdmv-linter/src/cli/init.rs`
 
 **Checkpoint**: US1 is fully functional and independently testable — this is the MVP.
 
